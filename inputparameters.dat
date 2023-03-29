@@ -1,0 +1,17 @@
+2
+2
+10000 1000
+0
+1E10
+0.333333333333333 0.333333333333333 0.033333333333333
+0 0 0		
+
+##1  particle Species(1 proton;2 helium;3 carbono;4 nitrogen;5 oxygen;6 aluminum;7 silicon;8 iron;9 eletron)
+##2  magnetic field model:(0 Uniform;1 Variable;2 Dipolar; 3 Galactic),
+##3  Number of interactions, fraction of the time
+##4  0:Non relativistic, 1:Relativistic
+##5  Initial energy(Em eV) - limite era 1E16
+##6  Initial velocity(Em relacao a luz)
+##7  Initial position (In dipole the module of the initial position must be !=0)
+  
+##Modelo nao relativistico fazemos velocidade e posicao, enquanto no relativistico usamos energia.

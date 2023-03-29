@@ -1,0 +1,4 @@
+#
+#Data list
+#      Specie    Model    Interactions  Fraction  Relativistic  energy  velocity0  velocity1 velocity2  position0 position1 position2
+       2         2        10000         1000      1             1E10    0.3333333  0.3333333 0.03333333 0         0         10

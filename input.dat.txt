@@ -1,0 +1,8 @@
+particula massa 
+ferro 9.273*pow(10.0,-26) ok
+eletron 9.109*pow(10.0,-31) 
+proton 1.672*pow(10.0, -27) ok
+helio 6.645*pow(10.0,-27)  ok
+nitrogenio 2.325*pow(10.0,-26)  
+silicio 4.663*pow(10.0,-26) ok
+aluminio 4.480*pow(10.0,-26)    ok 
