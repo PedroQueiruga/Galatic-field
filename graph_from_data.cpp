@@ -13,7 +13,7 @@ void graph_from_data() {
    FILE *fp1 = fopen("larmor.dat","r");
 
    Int_t n=0;
-   const Int_t nlines = 100000;
+   const Int_t nlines = 1000;
    Double_t x[nlines],y[nlines],z[nlines];
    Float_t xr,yr,zr,wr;
 
@@ -71,4 +71,6 @@ while (n<nlines) {
    c1->GetFrame()->SetFillColor(21);
    c1->GetFrame()->SetBorderSize(12);
    c1->Modified();
+   
+   c1->Print("c1.pdf");
 }

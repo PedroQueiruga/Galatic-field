@@ -228,7 +228,6 @@ double Physics::Relat(double m, double m_0, double v[3]){
 
 void Physics::Galactic(double BG[3],double r[3]){
 	
-	
 	Mathematics * Math = new Mathematics();
 	int k;
 	double p[3], BC[3];
@@ -242,10 +241,14 @@ void Physics::Galactic(double BG[3],double r[3]){
 	
 	//P is in radians;
 	
-	//Convert from cartesian to polar coordinates:
+	//Convert from cartesian to polar coordinates: 
 	//r[0]=x,r[1]=y,r[2]=z --> p[0]=rho,p[1]=theta,p[2]=z
 	
+	//printf("r0x=%.6e r0y=%.6e r0z=%.6e\n",r[0],r[1],r[2]);
+	
 	Math->Cart2Cyl(p,r);
+	
+	//printf("Theta=%.6e graus \n",p[1]*57.2958);
 	
 	//printf("r=%.6e, theta=%.6e, z=%.6e \n",p[0],p[1],p[2]);
 	
@@ -257,6 +260,8 @@ void Physics::Galactic(double BG[3],double r[3]){
 	
 	//ASS:
 	//Bsp=B0p*cos(p[1]-beta*log(p[0]/xi0))*cos(p[1]-beta*log(p[0]/xi0));
+	
+	//printf("Bsp=%.6e\n",Bsp);
 		
 	//BSS:
 	Bsp=B0p*cos(p[1]-beta*log(p[0]/xi0));
@@ -285,8 +290,20 @@ void Physics::Galactic(double BG[3],double r[3]){
 	
 	//Returning to cartesian coordinates:
 	
-	Math->Cyl2Cart(BG,BC);
-
+	/*
+	BG[0]=BC[0]*cos(p[1])-BC[1]*sin(p[1]);
+	
+	BG[1]=BC[0]*sin(p[1])+BC[1]*cos(p[1]);
+	
+	BG[2]=BC[2];
+	*/
+	
+	BG[0]=BC[0]*cos(BC[1])-BC[1]*sin(BC[1]);
+	
+	BG[1]=BC[0]*sin(BC[1])+BC[1]*cos(BC[1]);
+	
+	BG[2]=BC[2];
+	
 	//printf("BGx=%.6e, BGy=%.6e, BGz=%.6e \n",BG[0],BG[1],BG[2]);
 	
 }
@@ -364,11 +381,15 @@ void Physics::SortVel(double modv,double m,double v0[3]){
 }
 
 void Physics::kineticEnergy(double K, double modv, double m){
-	K=(m*modv)/2;	
+	
+	K=(m*modv)/2;
+		
 }
 
-void Physics::rigidity(double Ri, double modB, double rL){	
+void Physics::rigidity(double Ri, double modB, double rL){
+	
 	Ri=modB*rL;	
+	
 }
 
 double Physics::gammafunc(double vmod, double c){

@@ -1,8 +1,12 @@
 // System Headers
 //#include <iostream.h>
 //#include <strstream.h>
-#include <math.h>
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <iostream>
+#include <math.h>
+#include <cstdlib>
 class Physics
 {
  private:
@@ -83,6 +87,8 @@ class Physics
   //Function gamma
   
   double gammafunc(double vmod, double c);
+
+  
 };
 
 

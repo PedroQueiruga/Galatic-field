@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+#include <cstdlib>
 
 // Local Headers:
 #include "Mathematics.h"
@@ -31,6 +32,7 @@ double Mathematics::VecProd(double prod[3],double vec1[3], double vec2[3]){
   }
   
 //Modulus
+
 double Mathematics::Mod(double vec[3])
 {
 	double modulus=sqrt(vec[0]*vec[0]+vec[1]*vec[1]+vec[2]*vec[2]);
@@ -65,6 +67,7 @@ double Mathematics::ScalarProd(double vec1[3],double vec2[3])
 }
 
 //Angle between vectors
+
 double Mathematics::Angle2Vec(double vec1[3], double vec2[3]){
 	
 	double theta, scalar, mod1, mod2;
@@ -83,7 +86,9 @@ double Mathematics::Angle2Vec(double vec1[3], double vec2[3]){
 	return theta;
 	
 }
+
 //parallel vector and perpendicular(pe=perpendicular/pa=parallel)
+
 void Mathematics::Projections(double vpar[3],double vper[3],double vec1[3], double vec2[3]){
 	//vec1=v0(velocidade), vec2=B(Campo magnético)
 	int i,k;
@@ -161,15 +166,15 @@ void Mathematics::Esf2Cart(double vec1[3], double vec2[3], double esf[3]){
  
 void Mathematics::Cyl2Cart(double vec1[3], double vec2[3]){
 	
-	//Variable definition
+	//Variable definition (vec2[0-Brho,1-Bphi,2-Bz])
 	
 	double x,y,z; 
 	
-	//Changing the coordenate:
+	//Changing the coordinates:
 	
-	x=vec2[0]*cos(vec2[1]);
+	x=vec2[0]*cos(vec2[1])-vec2[1]*sin(vec2[1]);
 	
-	y=vec2[0]*sin(vec2[1]);
+	y=vec2[0]*sin(vec2[1])+vec2[1]*cos(vec2[1]);
 	
 	z=vec2[2];
 	
@@ -179,6 +184,8 @@ void Mathematics::Cyl2Cart(double vec1[3], double vec2[3]){
 	vec1[1]=y;
 	vec1[2]=z;
 	
+	//printf("X=%.3e , Y=%.3e , Z=%.3e",vec1[0],vec1[1],vec1[2]);
+	
 }
   
 
@@ -186,11 +193,43 @@ void Mathematics::Cart2Cyl(double vec1[3], double vec2[3]){
 	
 	double theta1, rho, z;
 	
+	//printf("r0x=%.6e r0y=%.6e r0z=%.6e\n",vec2[0],vec2[1],vec2[2]);
+	
 	rho=sqrt(vec2[0]*vec2[0]+vec2[1]*vec2[1]);
 	
 	theta1=atan(vec2[1]/vec2[0]);
 	
 	z=vec2[2];
+	
+	//printf("Theta=%.6e graus \n",theta1);
+	
+	if(theta1>=0){
+				
+		theta1=theta1;
+			
+	}
+			
+	if(theta1<=0){
+				
+		theta1=-theta1;
+			
+	}
+
+	if(vec2[0]<0 && vec2[1]>0){
+		
+		theta1=theta1+1.5708;	
+	}
+	if(vec2[0]<0 && vec2[1]<0){
+		
+		theta1=theta1+3.14159;		
+	}
+	if(vec2[0]>0 && vec2[1]<0){
+		
+		theta1=theta1+4.71239;	
+	}
+	
+	//Os angulos estão em radianos, e necessario realizar a conversao
+	
 	
 	vec1[0]=rho;
 	vec1[1]=theta1;
@@ -201,6 +240,7 @@ void Mathematics::Cart2Cyl(double vec1[3], double vec2[3]){
 	//printf("thetae=%.9e \n",thetae);
 	
 }
+
 
 
   
