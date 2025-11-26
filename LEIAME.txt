@@ -1,0 +1,130 @@
+Arquivos para desenvolver um projeto em C++ orientado a objetos. 
+
+Esta pasta contém este arquivo (LEIAME.txt) e um arquivo contendo o pacote (CRs.tgz). 
+
+O pacote consiste em um programa principal (Main) com quatro classes (InputParameters, Mathematics e Physics, types), em cada caso, os códigos (*.cc) estão acompanhados dos cabeçalhos, ou "headers", (*.h):
+ 
+Main.cc
+Main.h
+InputParameters.cc
+InputParameters.h
+input.dat
+Mathematics.cc
+Mathematics.h
+Physics.cc
+Physics.h
+types.h
+
+A única exceção é o arquivo do "types.h", visto que o propósito dele é definir a nossa variável de alta precisão junto com algumas constantes que são utilizadas durante o cálculo.
+
+**Este programa atualmente não é capaz de rodar em windowns, seus pacotes foram feitos para serem utilizados em um sistema linux.**
+
+--> Rodando em Linux/IOS:
+
+## 1 - Pré-requisitos:
+
+Instale os seguintes pacotes: build-essential (inclui o copilador g++ e a ferramenta make), em seguida as bibliotecas de alta precisão (libgmp-dev, libmpfr-dev, lobboost-all-dev) e por fim o ambiente para a análise em python (python3 e python3-pip, com as bibliotecas numpy, matplotlib, pandas). 
+
+O comando no terminam é o seguinte:
+
+sudo apt update
+sudo apt install build-essential libgmp-dev libmpfr-dev libboost-all-dev python3 python3-pip
+
+Agora instalando as bibliotecas do python:
+
+python3 -m pip install numpy matplotlib pandas
+
+## 2 - Copilação:
+
+Agora, descompacte o arquivo onde achar mais adequado. Entre na pasta "CRpropag" e execute o comando make:
+
+make
+
+isso irá copilar todos os ficheiros .cc e criar um único programa executável chamado CRs. Para limpar todos os ficheiros de copilação antigos antes de uma nova copilação, use:
+
+make clean
+
+(necessário caso sejam feitas alterações nos arquivos .h, caso contrário, utilizando o make novamente as alterações já serão contabilizadas)
+
+## 3 - Configuração da simulação:
+
+O comportamento da execução do ./CRs é controlado pelo ficheiro "input.dat". Dentro deste ficheiro, temos as variáveis que irão entrar no programa, ao realizar uma modificação, não é necessário recopilar, basta rodar ./CRs que ele irá pegar os novos dados. O formato desse arquivo é do tipo
+
+#Data list
+#Specie Model Turbulence Mapping Energy Passo  position0 position1 position2
+1       0     0          0       1.0e17 1.0e7  -8.5      0         0
+
+#Specie:(1 proton;2 helium;3 carbono;4 nitrogen;5 oxygen;6 aluminum;7 silicon;8 iron;9 eletron);
+#Model:(0 ASS, 1 BSS);
+#Turbulence: (0 ON, 1 OFF);
+#Mapping: (0 no mapping, 1 xy mapping, 2 circular mapping) -> Maps the magnetic field model
+#Energy: Particle energy in eV.
+#passo: Time between each step ~ if you decrease, the number of points increase. If you increase the step, the number of points decrease
+#Launch position (point where the particle are launched)
+
+## 4 - Execução
+
+Existem duas formas principais de executar as simulações. A primeira é a forma simples, basta digitar no terminal:
+
+./CRs
+
+que o programa irá rodar com os dados fornecidos no "input.dat".
+
+Agora, caso queira gerar um grande conjunto de dados, é fortemente recomendado utilizar o script Bash fornecido, chamado de "repeat.sh", este script executa o ./CRs várais vezes, fazendo um loop por diferentes energias e partículas. Ele cria automaticamente o input.dat para cada execução e organiza os resultados em subpastas dentro de "Simulacoes_resultados". Dentro do arquivo "repath.sh", temos o seguinte trecho que pode ser editado:
+
+"""""""""""""""
+
+
+# --- 1. Configurações Globais (Definem o executavel e o arquivo input a ser trabalhado)
+CRsExecutable="./CRs"          # Executável C++ no Linux
+InputFile="input.dat"          # Nome do ficheiro de input
+InputTemplate="input_template.dat" # Nome do nosso novo molde
+
+OutputFiles=(                  # Nomes dos ficheiros de saída
+    "Pos.dat"
+    "larmor.dat"
+    "data.dat"
+    "plane.dat"
+    "desvio.dat"
+    "deflection.dat"
+) ## Aqui é onde vão todas as pastas que devem ser movidas
+
+BaseOutputDirectory="Simulacoes_Resultados" # Pasta raiz para os resultados
+
+# Mapeamento para nomes de Partículas (Associative Array em Bash)
+declare -A SpecieNames
+SpecieNames["1"]="Proton"
+SpecieNames["2"]="Helio"
+SpecieNames["3"]="Carbono"
+SpecieNames["4"]="Nitrogenio"
+SpecieNames["5"]="Oxigenio"
+SpecieNames["6"]="Aluminio"
+SpecieNames["7"]="Silicio"
+SpecieNames["8"]="Ferro"
+SpecieNames["9"]="Eletron"
+
+# Mapeamento para nomes de Modelos
+declare -A ModelNames
+ModelNames["0"]="ASS"
+ModelNames["1"]="BSS"
+
+# --- 2. Parâmetros a Variar (IMPORTANTE - aqui que se altera para diferentes valores que se busca)
+TargetSpecies=("1" "2" "4" "6" "8") ou ("1" "2" "3")
+TargetModels=("0" "1") ou ("0")
+Energies=("1.0e17" "1.0e18" "1.0e19") ou ("1.0e16")
+NumberOfParticlesPerCondition=10 ou 20 ou 30 ou 5
+
+#em cada ou anterior botei outras opções que poderiam ter sido escolhidas, caso fosse do interesse da análise.
+
+# --- PARÂMETROS FIXOS ---
+FixedStep="1.0e7"
+FixedTurbulence="0"
+FixedMapping="0"
+FixedPosition0="-8.5"
+FixedPosition1="0"
+FixedPosition2="0"
+
+
+"""""""""""""""""
+
+## FIM

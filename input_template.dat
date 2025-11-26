@@ -1,0 +1,12 @@
+#Data list
+#Specie Model Turbulence Mapping Energy Passo  position0 position1 position2
+__DATALINE__
+
+
+#Specie:(1 proton;2 helium;3 carbono;4 nitrogen;5 oxygen;6 aluminum;7 silicon;8 iron;9 eletron);
+#Model:(0 ASS, 1 BSS);
+#Turbulence: (0 ON, 1 OFF);
+#Mapping: (0 no mapping, 1 xy mapping, 2 circular mapping) -> Maps the magnetic field model
+#Energy: Particle energy in eV.
+#passo: Time between each step ~ if you decrease, the number of points increase. If you increase the step, the number of points decrease
+#Launch position (point where the particle are launched)
